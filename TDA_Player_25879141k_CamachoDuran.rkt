@@ -6,3 +6,6 @@
 ;Rec: player
 ;Tipo de recursividad: No aplica
 ;CONSTRUCTOR
+
+(define (player id name color wins losses draws remaining-pieces)
+  (list id name color wins losses draws remaining-pieces))
