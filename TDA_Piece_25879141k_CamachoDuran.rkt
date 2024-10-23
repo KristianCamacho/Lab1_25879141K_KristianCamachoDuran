@@ -1,0 +1,8 @@
+#lang racket
+(provide (all-defined-out))
+
+;;REQUERIMIENTO 3: Función que crea una ficha de Conecta4
+;Dom: color(string)
+;Rec: piece
+;Tipo de recursividad: No aplica
+;CONSTRUCTOR
