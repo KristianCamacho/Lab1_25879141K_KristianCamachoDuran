@@ -14,3 +14,19 @@
        '(0 0 0 0 0 0 0)
        '(0 0 0 0 0 0 0)
        '(0 0 0 0 0 0 0)))
+
+;REQUERIMIENTO 5: Función que permite verificar si se puede realizar más jugadas en el tablero
+;Dom: board(board)
+;Rec: boolean (#t si se puede jugar, #f si no)
+;Tipo de recursividad: Rec Tail
+
+(define (board-can-play? board)
+  (define (row? row)
+    (if (null? row)#f
+        (if (eq? (car row) 0)#t
+            (row? (cdr row)))))
+  (define (board? b)
+    (if (null? b)#f
+        (if (row? (car b))#t
+            (board? (cdr b)))))
+  (board? board))
