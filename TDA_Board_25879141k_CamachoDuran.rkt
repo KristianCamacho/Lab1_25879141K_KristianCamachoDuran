@@ -47,3 +47,5 @@
               (cons current-row (set-piece (cdr rows) column piece))))))
   
   (reverse (set-piece (reverse board) column piece)))
+
+;avance
