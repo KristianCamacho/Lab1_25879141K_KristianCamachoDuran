@@ -48,4 +48,49 @@
   
   (reverse (set-piece (reverse board) column piece)))
 
-;avance
+;REQUERIMIENTO 7: Función que permite verificar el estado actual del tablero y entregar el posible ganador que cumple con la regla de conectar 4 fichas de forma vertical.
+;Dom: board (board)
+;Rec: int (1 si gana jugador 1, 2 si gana jugador 2, 0 si no hay ganador vertical)
+;Tipo de recursividad: Rec Nat
+
+(define (board-check-vertical-win board)
+  ; Verifica una columna desde una posición específica
+  (define (check-from-position board column row)
+    (if (< (+ row 3) (length board)) ; Nos aseguramos de tener 4 espacios hacia abajo
+        (let ((pos0 (list-ref (list-ref board row) column))
+              (pos1 (list-ref (list-ref board (+ row 1)) column))
+              (pos2 (list-ref (list-ref board (+ row 2)) column))
+              (pos3 (list-ref (list-ref board (+ row 3)) column)))
+          (cond 
+            ((and (equal? pos0 "red")
+                  (equal? pos1 "red")
+                  (equal? pos2 "red")
+                  (equal? pos3 "red"))
+             1)
+            ((and (equal? pos0 "yellow")
+                  (equal? pos1 "yellow")
+                  (equal? pos2 "yellow")
+                  (equal? pos3 "yellow"))
+             2)
+            (else 0)))
+        0))
+  
+  ; Verifica una columna completa
+  (define (check-column board column row)
+    (if (>= row (- (length board) 3))
+        0
+        (let ((result (check-from-position board column row)))
+          (if (> result 0)
+              result
+              (+ (check-column board column (+ row 1)) 0)))))
+  
+  ; Verifica todas las columnas
+  (define (check-all-columns board column)
+    (if (>= column (length (car board)))
+        0
+        (let ((result (check-column board column 0)))
+          (if (> result 0)
+              result
+              (+ (check-all-columns board (+ column 1)) 0)))))
+  
+  (check-all-columns board 0))
