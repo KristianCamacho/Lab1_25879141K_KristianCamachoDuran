@@ -1,5 +1,42 @@
 #lang racket
 (provide (all-defined-out))
+;GETTERS:
+
+;Descripcion:Función auxiliar para obtener solo el tablero del juego
+;Dom: board(board)
+;rec: board(list)
+(define (get-board board)
+  (car board))
+
+;Descripcion:Función auxiliar para obtener el historial
+;Dom: board(board)
+;rec: historial(list)
+(define (get-history board)
+  (cadr board))
+
+;Auxiliares:
+
+;Descripcion:Función auxiliar para verificar una posicion vacia
+;Dom: row(list) x column(number)
+;rec: boolean (#t si se puede colocar la pieza #f en caso contrario)
+(define (row? row column)
+  (and (not (null? row)) (eq? (list-ref row column) 0)))
+
+;Descripcion:Función auxiliar para colocar la pieza
+;Dom: rows(board) x column(number) x piece(string)
+;rec: board
+(define (set-piece rows column piece)
+  (if (null? rows) '()
+      (let ((current-row (car rows)))
+        (if (row? current-row column)
+            (cons (list-set current-row column piece) (cdr rows))  
+              (cons current-row (set-piece (cdr rows) column piece))))))
+
+;Descripcion:Función auxiliar para obtener el jugador segun el color
+;Dom: piece(string)
+;rec: board
+(define (get-player piece)
+  (if (equal? piece "red")1 2))
 
 ;REQUERIMIENTO 4: Crear un tablero de Conecta4
 ;Dom: No recibe parametros de entrada
@@ -31,22 +68,14 @@
             (board? (cdr b)))))
   (board? board))
 
-;REQUERIMIENTO 6: Función que permite Jugar una ficha en el tablero
+;REQUERIMIENTO 6: Función que permite Jugar una ficha en el tablero y registra en el historial
 ;Dom: board (board) X column (int) X piece (piece)
 ;Rec: board
-;Tipo de recursividad: Rec Natural
-
+;Tipo de recursividad: Rec Nat
 (define (board-set-play-piece board column piece)
-  (define (row? row)
-    (and (not (null? row)) (eq? (list-ref row column) 0)))
-  (define (set-piece rows column piece)
-    (if (null? rows) '()  
-        (let ((current-row (car rows)))
-          (if (row? current-row)  
-              (cons (list-set current-row column piece) (cdr rows))  
-              (cons current-row (set-piece (cdr rows) column piece))))))
-  
-  (reverse (set-piece (reverse board) column piece)))
+  (list
+   (reverse (set-piece (reverse (get-board board)) column piece))
+   (cons (list (get-player piece) piece) (get-history board))))
 
 ;REQUERIMIENTO 7: Función que permite verificar el estado actual del tablero y entregar el posible ganador que cumple con la regla de conectar 4 fichas de forma vertical.
 ;Dom: board (board)
