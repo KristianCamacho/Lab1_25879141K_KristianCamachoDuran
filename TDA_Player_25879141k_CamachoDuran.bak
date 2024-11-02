@@ -9,3 +9,8 @@
 
 (define (player id name color wins losses draws remaining-pieces)
   (list id name color wins losses draws remaining-pieces))
+
+;Ej 1
+(define p1(player 1 "kristian" "red" 10000 0 0 21))
+;Ej 2
+(define p2(player 2 "kristofer" "yelow" 0 10000 0 21))

@@ -6,3 +6,9 @@
 ;Rec: piece
 ;Tipo de recursividad: No aplica
 ;CONSTRUCTOR
+
+(define (piece color)
+  (list color))
+
+(define red-piece(piece "red"))
+(define yellow-piece(piece "yellow"))

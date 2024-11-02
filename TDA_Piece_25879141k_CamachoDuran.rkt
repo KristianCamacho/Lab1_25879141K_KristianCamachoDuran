@@ -10,5 +10,4 @@
 (define (piece color)
   (list color))
 
-(define red-piece(piece "red"))
-(define yellow-piece(piece "yellow"))
+
